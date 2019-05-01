@@ -1,3 +1,17 @@
+# Why have we forked this repository?
+### Purpose
+We needed to remove a line of code which was causing the mapbox binary to be re-downloaded each time the NPM module was installed.
+- https://github.com/nitaliano/react-native-mapbox-gl/pull/1533
+- https://github.com/robinpowered/react-native-mapbox-gl/pull/1
+
+### Future maintenance 
+This fork can be safely rebased with the root branch. 
+It should be kept up to date.
+
+### Deprecation plan
+When [the necessary changes](https://github.com/nitaliano/react-native-mapbox-gl/pull/1533) are availabile via a release, this fork should be deleted and projects should move onto the [root library](https://github.com/nitaliano/react-native-mapbox-gl).
+
+<br><br><br><br><br><br>
 # Mapbox Maps SDK for React Native
 
 _An unofficial React Native component for building maps with the [Mapbox Maps SDK for iOS](https://www.mapbox.com/ios-sdk/) and [Mapbox Maps SDK for Android](https://www.mapbox.com/android-sdk/)_
