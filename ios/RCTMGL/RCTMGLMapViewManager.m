@@ -354,12 +354,12 @@ RCT_EXPORT_METHOD(showAttribution:(nonnull NSNumber *)reactTag
 {
     [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *manager, NSDictionary<NSNumber*, UIView*> *viewRegistry) {
         id view = viewRegistry[reactTag];
-        
+
         if (![view isKindOfClass:[RCTMGLMapView class]]) {
             RCTLogError(@"Invalid react tag, could not find RCTMGLMapView");
             return;
         }
-        
+
         __weak RCTMGLMapView *reactMapView = (RCTMGLMapView*)view;
         [reactMapView showAttribution:reactMapView];
         resolve(nil);
@@ -370,7 +370,7 @@ RCT_EXPORT_METHOD(showAttribution:(nonnull NSNumber *)reactTag
 
 - (void)didTapMap:(UITapGestureRecognizer *)recognizer
 {
-    RCTMGLMapView *mapView = (RCTMGLMapView*)recognizer.view;    
+    RCTMGLMapView *mapView = (RCTMGLMapView*)recognizer.view;
     CGPoint screenPoint = [recognizer locationInView:mapView];
     NSArray<RCTMGLSource *> *touchableSources = [mapView getAllTouchableSources];
 
@@ -529,7 +529,8 @@ RCT_EXPORT_METHOD(showAttribution:(nonnull NSNumber *)reactTag
 
 - (void)mapViewRegionIsChanging:(MGLMapView *)mapView
 {
-    [self reactMapDidChange:mapView eventType:RCT_MAPBOX_REGION_IS_CHANGING];
+    NSDictionary *payload = [self _makeRegionPayload:mapView animated:false];
+    [self reactMapDidChange:mapView eventType:RCT_MAPBOX_REGION_IS_CHANGING andPayload:payload];
 }
 
 - (void)mapView:(MGLMapView *)mapView regionDidChangeWithReason:(MGLCameraChangeReason)reason animated:(BOOL)animated
