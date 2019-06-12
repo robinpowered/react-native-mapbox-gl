@@ -43,6 +43,12 @@
         }
     });
 }
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+  return TRUE;
+}
+
 @end
 
 
@@ -64,26 +70,10 @@ RCT_EXPORT_MODULE(RCTMGLMapView)
     RCTMGLMapView *mapView = [[RCTMGLMapView alloc] initWithFrame:RCT_MAPBOX_MIN_MAP_FRAME];
     mapView.delegate = self;
 
-    // setup map gesture recongizers
-    UIShortTapGestureRecognizer *doubleTap = [[UIShortTapGestureRecognizer alloc] initWithTarget:self action:nil];
-    doubleTap.numberOfTapsRequired = 2;
-
     UIShortTapGestureRecognizer *tap = [[UIShortTapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapMap:)];
-
-    [tap requireGestureRecognizerToFail:doubleTap];
 
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didLongPressMap:)];
 
-    // this allows the internal annotation gestures to take precedents over the map tap gesture
-    for (int i = 0; i < mapView.gestureRecognizers.count; i++) {
-        UIGestureRecognizer *gestuerReconginer = mapView.gestureRecognizers[i];
-
-        if ([gestuerReconginer isKindOfClass:[UITapGestureRecognizer class]]) {
-            [tap requireGestureRecognizerToFail:gestuerReconginer];
-        }
-    }
-
-    [mapView addGestureRecognizer:doubleTap];
     [mapView addGestureRecognizer:tap];
     [mapView addGestureRecognizer:longPress];
 
@@ -105,7 +95,6 @@ RCT_REMAP_VIEW_PROPERTY(zoomEnabled, reactZoomEnabled, BOOL)
 
 RCT_REMAP_VIEW_PROPERTY(contentInset, reactContentInset, NSArray)
 RCT_REMAP_VIEW_PROPERTY(centerCoordinate, reactCenterCoordinate, NSString)
-RCT_REMAP_VIEW_PROPERTY(visibleCoordinateBounds, reactVisibleCoordinateBounds, NSString)
 RCT_REMAP_VIEW_PROPERTY(styleURL, reactStyleURL, NSString)
 
 RCT_REMAP_VIEW_PROPERTY(userTrackingMode, reactUserTrackingMode, int)
